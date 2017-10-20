@@ -1,4 +1,4 @@
-package com.max.tema.monolit.monolit.entity;
+package ru.masharan.entity;
 
 import lombok.Data;
 
