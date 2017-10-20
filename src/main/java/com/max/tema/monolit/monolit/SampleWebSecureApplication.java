@@ -51,7 +51,6 @@ public class SampleWebSecureApplication implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/medved").setViewName("medved");
 		registry.addViewController("/login").setViewName("login");
 	}
 
