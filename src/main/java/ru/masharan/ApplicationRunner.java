@@ -16,9 +16,14 @@
 
 package ru.masharan;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.masharan.security.service.DaoUserService;
 
 @SpringBootApplication
 public class ApplicationRunner implements WebMvcConfigurer {
@@ -26,4 +31,16 @@ public class ApplicationRunner implements WebMvcConfigurer {
 	public static void main(String[] args) throws Exception {
 		new SpringApplicationBuilder(ApplicationRunner.class).run(args);
 	}
+
+
+	@Bean
+	@Autowired
+	@DaoUserService
+	public DaoAuthenticationProvider myAuthProvider( UserDetailsService securityService) {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(securityService);
+		return provider;
+	}
+
+
 }
