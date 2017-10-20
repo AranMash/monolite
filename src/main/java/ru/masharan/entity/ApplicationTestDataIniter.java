@@ -14,7 +14,7 @@ import static java.util.Collections.singleton;
 public class ApplicationTestDataIniter implements ApplicationRunner {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -31,6 +31,6 @@ public class ApplicationTestDataIniter implements ApplicationRunner {
         role.setName("user");
         roleRepository.save(role);
         user.setRoles(singleton(role));
-        repository.save(user);
+        userRepository.save(user);
     }
 }
