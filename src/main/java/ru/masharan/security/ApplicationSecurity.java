@@ -69,7 +69,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 usersConnectionRepository,
                 new SocialSignInAdapter()
         );
-        controller.setSignUpUrl("/registration");
+        controller.setSignUpUrl("/user/registration");
 
         return controller;
     }
