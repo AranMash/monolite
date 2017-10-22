@@ -6,11 +6,15 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserDTO {
+public class UserDto {
 
     @NotNull
     @NotEmpty
-    private String name;
+    private String firstName;
+
+    @NotNull
+    @NotEmpty
+    private String lastName;
 
     @NotEmpty
     @NotNull
