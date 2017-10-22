@@ -29,7 +29,12 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+                .and()
+                /*For h2-console authorisation */
+                .headers().frameOptions().disable()
+                .and()
+                .csrf().disable();
         // @formatter:on
     }
 

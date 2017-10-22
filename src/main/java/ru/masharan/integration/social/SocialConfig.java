@@ -51,7 +51,6 @@ public class SocialConfig extends SocialConfigurerAdapter {
                 factoryLocator,
                 Encryptors.noOpText()
         );
-
         repository.setConnectionSignUp(new SimpleConnectionSignUp());
         return repository;
     }
