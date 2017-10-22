@@ -31,6 +31,7 @@ public class ApplicationTestDataIniter implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         User user = new User();
         user.setName("user");
+        user.setEmail("sdf@gmail.com");
         String pass = "user";
         String encoded = encoder.encode(pass);
         user.setPassword(encoded);
