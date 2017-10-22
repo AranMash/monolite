@@ -26,6 +26,12 @@
 			<input type="submit" id="login" value="Login"
 				   class="btn btn-primary" />
 		</form>
+		<form name="twitter" th:action="@{/signin/twitter}" method="POST">
+			<button th:type="submit">Sign in with Twitter</button>
+			<label>
+				<input th:type="hidden" name="scope">
+			</label>
+		</form>
 	</div>
 </div>
 </body>

@@ -17,7 +17,6 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.api.Twitter;
-import ru.masharan.integration.social.connection.SimpleConnectionSignUp;
 
 import javax.sql.DataSource;
 
@@ -51,7 +50,8 @@ public class SocialConfig extends SocialConfigurerAdapter {
                 factoryLocator,
                 Encryptors.noOpText()
         );
-        repository.setConnectionSignUp(new SimpleConnectionSignUp());
+
+//        repository.setConnectionSignUp(new SimpleConnectionSignUp());
         return repository;
     }
 
