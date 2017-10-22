@@ -5,62 +5,50 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.social.UserIdSource;
+import org.springframework.social.config.annotation.SocialConfigurer;
+import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
-import org.springframework.social.connect.support.ConnectionFactoryRegistry;
-import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
-import ru.masharan.entity.User;
+import org.springframework.social.linkedin.api.LinkedIn;
+import org.springframework.social.security.AuthenticationNameUserIdSource;
+import org.springframework.social.twitter.api.Twitter;
 import ru.masharan.integration.social.connection.SimpleConnectionSignUp;
-import ru.masharan.security.UserSecurityContext;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
-
 
 @Configuration
-public class SocialConfig {
-
-    @Autowired
-    private Environment environment;
+public class SocialConfig extends SocialConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
 
     /**
-     * Add a ConnectionFactoryLocator that has registered the providers your app connects to
+     * Add a {@link ConnectionFactoryLocator} that has registered the providers your app connects to.
+     * This creates a registry of connection factories {@link org.springframework.social.connect.ConnectionFactory}
+     * that other objects can use to lookup connection factories dynamically.
+     * The connection factory registry implements the {@link ConnectionFactoryLocator} interface.
+     * Spring Boot automatically searches {@docRoot application.properties}, than take default settings for
+     * the app-id and app-secret with a special prefix like this one, for example: "spring.social.facebook".
      *
-     * @return ConnectionFactoryLocator
      */
-    @Bean
-    public ConnectionFactoryLocator connectionFactoryLocator() {
-        ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
-        registry.addConnectionFactory(
-                new FacebookConnectionFactory(
-                        environment.getProperty("facebook.clientId"),
-                        environment.getProperty("facebook.clientSecret")
-                )
-        );
-
-        return registry;
-    }
+    @Autowired
+    private ConnectionFactoryLocator factoryLocator;
 
     /**
      * Add a UsersConnectionRepository for persisting Connection data across all users
      *
-     * @return UsersConnectionRepository
+     * @return {@link UsersConnectionRepository}
      */
     @Bean
     public UsersConnectionRepository usersConnectionRepository() {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(
                 dataSource,
-                connectionFactoryLocator(),
+                factoryLocator,
                 Encryptors.noOpText()
         );
 
@@ -69,34 +57,41 @@ public class SocialConfig {
     }
 
     /**
-     * Add a ConnectionRepository for managing the current user's connections
+     * Request-scoped beans representing current user API bindings. Facebook is shown here
      *
-     * @return ConnectionRepository
+     * @return {@link Facebook}
      */
     @Bean
     @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
-    public ConnectionRepository connectionRepository() {
-        User user = UserSecurityContext.getCurrentUser();
-        return usersConnectionRepository().createConnectionRepository(String.valueOf(user.getId()));
+    @Autowired
+    public Facebook facebook(ConnectionRepository connectionRepository) {
+        return connectionRepository.getPrimaryConnection(Facebook.class).getApi();
+    }
+
+    @Bean
+    @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+    @Autowired
+    public Twitter twitter(ConnectionRepository connectionRepository) {
+        return connectionRepository.getPrimaryConnection(Twitter.class).getApi();
+    }
+
+    @Bean
+    @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+    @Autowired
+    public LinkedIn linkedIn(ConnectionRepository connectionRepository) {
+        return connectionRepository.getPrimaryConnection(LinkedIn.class).getApi();
     }
 
     /**
-     * Request-scoped beans representing current user API bindings. Facebook is shown here
+     * Internally, Spring Social’s configuration support will use the {@link UsersConnectionRepository}
+     * to create a request-scoped {@link ConnectionRepository} bean.
+     * In doing so, it must identify the current user. Therefore, we must also override
+     * the {@link SocialConfigurer#getUserIdSource()} to return an instance of a UserIdSource.
      *
-     * @return Facebook
+     * @return {@link UserIdSource}
      */
-    @Bean
-    @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
-    public Facebook facebook() {
-        return connectionRepository().getPrimaryConnection(Facebook.class).getApi();
+    @Override
+    public UserIdSource getUserIdSource() {
+        return new AuthenticationNameUserIdSource();
     }
-
-//    @Bean
-//    public ProviderSignInController providerSignInController() {
-//        return new ProviderSignInController(
-//                connectionFactoryLocator(),
-//                usersConnectionRepository(),
-//
-//                );
-//    }
 }
