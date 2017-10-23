@@ -1,4 +1,4 @@
-package ru.masharan.model.entity;
+package ru.masharan.web;
 
 import lombok.Data;
 import ru.masharan.web.validators.PasswordMatcher;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @PasswordMatcher
-public class UserDto {
+public class UserForm {
 
     @NotNull
     @NotEmpty
