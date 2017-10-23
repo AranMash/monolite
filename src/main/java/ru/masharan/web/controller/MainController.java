@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import ru.masharan.model.UserAlreadyExistException;
-import ru.masharan.model.entity.UserDto;
+import ru.masharan.web.UserForm;
 import ru.masharan.model.service.UserService;
 
 import javax.validation.Valid;
@@ -35,15 +35,15 @@ public class MainController {
         return "home";
     }
 
-    @RequestMapping(value = "/user/registration", method = RequestMethod.GET)
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationForm(WebRequest request, Model model) {
-        UserDto userDto = new UserDto();
-        model.addAttribute("user", userDto);
+        UserForm userForm = new UserForm();
+        model.addAttribute("user", userForm);
         return "registration";
     }
 
-    @RequestMapping(value = "/user/registration", method = RequestMethod.GET)
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDto accountDto,
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserForm accountDto,
                                             BindingResult result, WebRequest request,
                                             Errors errors) {
         if (result.hasErrors()) {
@@ -53,7 +53,7 @@ public class MainController {
         return new ModelAndView("successRegister", "user", accountDto);
     }
 
-    private void registerUser(UserDto accountDto, BindingResult result) {
+    private void registerUser(UserForm accountDto, BindingResult result) {
         try {
             service.registerUserAccount(accountDto);
         } catch (UserAlreadyExistException e) {

@@ -37,7 +37,7 @@
 					<label for="lastName">Last Name <span th:if="${#fields.hasErrors('lastName')}" class="error" th:text="${#fields.errors('lastName')[0]}">Error</span></label>
 					<input type="text" th:field="*{lastName}" /><br/>
 					<label for="username">Username <span th:if="${#fields.hasErrors('username')}" class="error" th:text="${#fields.errors('username')[0]}">Error</span></label>
-					<input type="text" th:field="*{username}" /><br/>
+					<input type="text" th:field="*{email}" /><br/>
 					<label for="password">Password<br/><span th:if="${#fields.hasErrors('password')}" class="error" th:text="${#fields.errors('password')[0]}">Error</span></label>
 					<input type="password" th:field="*{password}" /> <small>(at least 6 characters)</small>
 				</fieldset>

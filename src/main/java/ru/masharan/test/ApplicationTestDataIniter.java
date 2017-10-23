@@ -32,7 +32,8 @@ public class ApplicationTestDataIniter implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
         User user = new User();
-        user.setName("user");
+        user.setFirstName("user");
+        user.setLastName("user");
         user.setEmail("sdf@gmail.com");
         String pass = "user";
         String encoded = encoder.encode(pass);

@@ -32,7 +32,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .requestMatchers(StaticResourceRequest.toCommonLocations()).permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login/**","/signin/**","/signup/**", "/user/registration/**").permitAll()
+                .antMatchers("/login/**","/signin/**","/signup/**", "/registration/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
@@ -53,7 +53,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
     /**
      * {@link ProviderSignInController} uses information from the request to determine the protocol,
-     * host name, and port number to use when creating a callback URL.
+     * host firstName, and port number to use when creating a callback URL.
      * @param factoryLocator
      * @param usersConnectionRepository
      * @return {@link ProviderSignInController}
