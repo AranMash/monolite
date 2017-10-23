@@ -6,10 +6,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.masharan.entity.Role;
-import ru.masharan.entity.User;
+import ru.masharan.model.entity.Role;
+import ru.masharan.model.entity.User;
 import ru.masharan.security.service.DaoUserService;
-import ru.masharan.web.repo.UserRepository;
+import ru.masharan.model.repo.UserRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;

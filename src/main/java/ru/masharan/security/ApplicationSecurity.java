@@ -24,7 +24,6 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         this.provider = provider;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off

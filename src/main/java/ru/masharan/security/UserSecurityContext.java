@@ -1,6 +1,6 @@
 package ru.masharan.security;
 
-import ru.masharan.entity.User;
+import ru.masharan.model.entity.User;
 
 public class UserSecurityContext {
 

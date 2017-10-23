@@ -1,4 +1,4 @@
-package ru.masharan.entity;
+package ru.masharan.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -6,8 +6,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.masharan.web.repo.RoleRepository;
-import ru.masharan.web.repo.UserRepository;
+import ru.masharan.model.entity.Role;
+import ru.masharan.model.entity.User;
+import ru.masharan.model.repo.RoleRepository;
+import ru.masharan.model.repo.UserRepository;
 
 import static java.util.Collections.singleton;
 
