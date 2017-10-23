@@ -27,22 +27,24 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-        http.
-                authorizeRequests()
+        http
+                .headers()
+                .frameOptions().disable()
+                .and()
+                .csrf().disable().
+                 authorizeRequests()
                 .requestMatchers(StaticResourceRequest.toCommonLocations()).permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login/**","/signin/**","/signup/**", "/registration/**").permitAll()
+                .antMatchers("/login/**", "/signin/**", "/signup/**", "/registration/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
                 .and()
-                .logout().permitAll()
-                .and()
+                .logout().permitAll();
                 /*For h2-console authorisation */
-                .headers().frameOptions().disable()
-                .and()
-                .csrf().disable();
+
+
         // @formatter:on
     }
 
@@ -54,6 +56,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     /**
      * {@link ProviderSignInController} uses information from the request to determine the protocol,
      * host firstName, and port number to use when creating a callback URL.
+     *
      * @param factoryLocator
      * @param usersConnectionRepository
      * @return {@link ProviderSignInController}

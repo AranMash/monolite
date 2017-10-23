@@ -24,7 +24,7 @@ public class MainController {
 
     @Autowired
     private UserService service;
-
+    private final static String USER_FORM = "userForm";
 
 
     @GetMapping("/")
@@ -38,19 +38,19 @@ public class MainController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationForm(WebRequest request, Model model) {
         UserForm userForm = new UserForm();
-        model.addAttribute("user", userForm);
+        model.addAttribute(USER_FORM, userForm);
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserForm accountDto,
+    public ModelAndView registerUserAccount(@ModelAttribute(USER_FORM) @Valid UserForm accountDto,
                                             BindingResult result, WebRequest request,
                                             Errors errors) {
         if (result.hasErrors()) {
-            return new ModelAndView("registration", "user", accountDto);
+            return new ModelAndView("registration", USER_FORM, accountDto);
         }
         registerUser(accountDto, result);
-        return new ModelAndView("successRegister", "user", accountDto);
+        return new ModelAndView("login", USER_FORM, accountDto);
     }
 
     private void registerUser(UserForm accountDto, BindingResult result) {
