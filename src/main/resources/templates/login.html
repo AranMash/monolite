@@ -12,8 +12,8 @@
             <ul class="nav">
                 <li><a th:href="@{/}" href="home.html"> Home </a></li>
                 <li>
-                    <form  action="/registration" method="get">
-                        <input type="submit" name="Registration" value="Registration"/>
+                    <form  th:action="@{/registration}" method="get" >
+                        <input id="nav" type="submit" name="Registration" value="Registration"/>
                     </form>
                 </li>
             </ul>

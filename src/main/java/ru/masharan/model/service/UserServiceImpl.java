@@ -5,7 +5,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.masharan.model.UserAlreadyExistException;
+import ru.masharan.model.entity.EmailVerificationToken;
 import ru.masharan.model.entity.User;
+import ru.masharan.model.repo.TokenRepository;
 import ru.masharan.model.repo.UserRepository;
 import ru.masharan.web.UserForm;
 
@@ -14,15 +16,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private TokenRepository tokenRepository;
+
 
     @Override
     @Transactional
-    public void registerUserAccount(UserForm form) throws UserAlreadyExistException {
+    public User createUserAccount(UserForm form) throws UserAlreadyExistException {
         if (emailExist(form.getEmail())) {
             throw new UserAlreadyExistException("User with email" + form.getEmail() + " is already exist");
         }
@@ -33,7 +38,8 @@ public class UserServiceImpl implements UserService {
                 .email(form.getEmail())
                 .password(decryptPassword(form)).build();
 
-        userRepo.save(user);
+        userRepository.save(user);
+        return user;
     }
 
     private String decryptPassword(UserForm form) {
@@ -42,7 +48,13 @@ public class UserServiceImpl implements UserService {
 
 
     private boolean emailExist(String email) {
-        return userRepo.findByEmail(email) != null;
+        return userRepository.findByEmail(email) != null;
     }
+
+    @Override
+    public void createVerificationToken(User user, String token) {
+        tokenRepository.save(new EmailVerificationToken(token, user));
+    }
+
 
 }

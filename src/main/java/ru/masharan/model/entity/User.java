@@ -8,8 +8,15 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Simple user, he registers directly throw site.
+ * User should confirm he's email.
+ * @author mash0916
+ */
+
+
 @Entity
-@Table(name = "test_user_data_table")
+@Table(name = "user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,6 +38,9 @@ public class User {
 
     @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private boolean enabled = false;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role" ,joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

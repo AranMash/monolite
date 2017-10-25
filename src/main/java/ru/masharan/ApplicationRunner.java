@@ -31,6 +31,8 @@ import ru.masharan.security.service.DaoUserService;
 public class ApplicationRunner implements WebMvcConfigurer {
 
     public static void main(String[] args) throws Exception {
+        //hack for mail
+        System.setProperty("java.net.preferIPv4Stack" , "true");
         new SpringApplicationBuilder(ApplicationRunner.class).run(args);
     }
 
