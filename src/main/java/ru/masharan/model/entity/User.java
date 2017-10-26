@@ -46,7 +46,14 @@ public class User {
     @JoinTable(name = "user_role" ,joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-
+    public User(String firstName, String lastName, String password, String email, boolean enabled, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.enabled = enabled;
+        this.roles = roles;
+    }
 
     @Override
     public boolean equals(Object o) {

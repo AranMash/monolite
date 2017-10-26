@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInController;
-import ru.masharan.integration.adapter.SocialSignInAdapter;
+import ru.masharan.integration.social.adapter.SocialSignInAdapter;
 
 @Configuration
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
@@ -71,7 +71,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 usersConnectionRepository,
                 new SocialSignInAdapter()
         );
-        controller.setSignUpUrl("/user/registration");
+        controller.setSignUpUrl("/registration");
 
         return controller;
     }

@@ -44,14 +44,14 @@ public class SocialConfig extends SocialConfigurerAdapter {
      * @return {@link UsersConnectionRepository}
      */
     @Bean
-    public UsersConnectionRepository usersConnectionRepository() {
+        public UsersConnectionRepository usersConnectionRepository() {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(
                 dataSource,
                 factoryLocator,
                 Encryptors.noOpText()
         );
 
-//        repository.setConnectionSignUp(new SimpleConnectionSignUp());
+//        repository.setConnectionSignUp(new SocialConnectionSignUp());
         return repository;
     }
 

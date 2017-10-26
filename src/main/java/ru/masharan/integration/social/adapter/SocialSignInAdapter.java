@@ -1,4 +1,4 @@
-package ru.masharan.integration.adapter;
+package ru.masharan.integration.social.adapter;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
